@@ -1,5 +1,6 @@
 const operators = ["Anna Jensen", "Brian Nielsen", "Camilla Sørensen", "Daniel Hansen", "Eva Madsen", "Frederik Larsen"];
 const STORAGE_KEY = "machineHandoverHistoryV1";
+const THEME_KEY = "machineHandoverThemeV1";
 
 const form = document.getElementById("handoverForm");
 const statusSelect = document.getElementById("machineStatus");
@@ -10,6 +11,8 @@ const message = document.getElementById("formMessage");
 const historyList = document.getElementById("historyList");
 const saveStatus = document.getElementById("saveStatus");
 const installBtn = document.getElementById("installBtn");
+const themeBtn = document.getElementById("themeBtn");
+const liveClock = document.getElementById("liveClock");
 let deferredPrompt = null;
 
 function fillOperators() {
@@ -17,6 +20,25 @@ function fillOperators() {
     const select = document.getElementById(id);
     select.innerHTML = '<option value="">Vælg operatør</option>' + operators.map(name => `<option>${name}</option>`).join("");
   });
+}
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  localStorage.setItem(THEME_KEY, theme);
+  themeBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+  themeBtn.title = theme === "dark" ? "Skift til lys tilstand" : "Skift til mørk tilstand";
+  document.querySelector('meta[name="theme-color"]').setAttribute("content", theme === "dark" ? "#0b141c" : "#0b3b60");
+}
+
+function initTheme() {
+  const saved = localStorage.getItem(THEME_KEY);
+  const preferred = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  applyTheme(saved || preferred);
+}
+
+function updateClock() {
+  if (!liveClock) return;
+  liveClock.textContent = new Date().toLocaleTimeString("da-DK", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 }
 
 function toggleErrorField() {
@@ -33,18 +55,14 @@ function showMessage(text, type) {
   message.hidden = false;
 }
 
-function hideMessage() {
-  message.hidden = true;
-}
+function hideMessage() { message.hidden = true; }
 
 function getHistory() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
   catch { return []; }
 }
 
-function saveHistory(items) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items.slice(0, 25)));
-}
+function saveHistory(items) { localStorage.setItem(STORAGE_KEY, JSON.stringify(items.slice(0, 25))); }
 
 function escapeHtml(value = "") {
   return value.replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
@@ -73,11 +91,11 @@ function renderHistory() {
 
 statusSelect.addEventListener("change", toggleErrorField);
 errorDescription.addEventListener("input", () => charCount.textContent = errorDescription.value.length);
+themeBtn.addEventListener("click", () => applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark"));
 
 form.addEventListener("submit", event => {
   event.preventDefault();
   hideMessage();
-
   if (!form.checkValidity()) {
     form.reportValidity();
     showMessage("Udfyld venligst alle obligatoriske felter.", "error");
@@ -92,19 +110,14 @@ form.addEventListener("submit", event => {
   }
 
   const data = Object.fromEntries(new FormData(form).entries());
-  const item = {
-    id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
-    ...data,
-    createdAt: new Date().toISOString()
-  };
-
+  const item = { id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), ...data, createdAt: new Date().toISOString() };
   const history = getHistory();
   history.unshift(item);
   saveHistory(history);
   renderHistory();
   showMessage("Overdragelsen er gemt på denne enhed.", "success");
-  saveStatus.textContent = "Gemt";
-  setTimeout(() => saveStatus.textContent = "Klar", 2500);
+  saveStatus.textContent = "● Gemt";
+  setTimeout(() => saveStatus.textContent = "● Klar", 2500);
   form.reset();
   toggleErrorField();
   window.scrollTo({top: 0, behavior: "smooth"});
@@ -143,6 +156,9 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
 }
 
+initTheme();
 fillOperators();
 toggleErrorField();
 renderHistory();
+updateClock();
+setInterval(updateClock, 1000);
