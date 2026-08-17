@@ -207,3 +207,5 @@ Bevar et enkelt og intuitivt brugerflow.
 
 ## Status
 README og masterprompt skal holdes opdateret, når projektets funktioner eller arkitektur ændres væsentligt.
+
+<!-- Fresh Pages deployment trigger -->
