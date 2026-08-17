@@ -1,7 +1,7 @@
 {
-  "name": "Maskinoverdragelse",
-  "short_name": "Overdragelse",
-  "description": "Overdragelsesapp til sikker overlevering af maskinstatus, batch, ordre og operatører.",
+  "name": "Machine Handover",
+  "short_name": "Handover",
+  "description": "Demoapp til kontrolleret overdragelse af maskinstatus, batch, ordre og operatører.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
