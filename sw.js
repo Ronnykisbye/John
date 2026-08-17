@@ -1,4 +1,4 @@
-const CACHE = "machine-handover-v5";
+const CACHE = "machine-handover-v6";
 const ASSETS = ["./", "./index.html", "./styles.css", "./dark-glow.css", "./app.js", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", event => {
