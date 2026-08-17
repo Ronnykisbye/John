@@ -1,0 +1,14 @@
+{
+  "name": "Maskinoverdragelse",
+  "short_name": "Overdragelse",
+  "description": "Overdragelsesapp til sikker overlevering af maskinstatus, batch, ordre og operatører.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef4f8",
+  "theme_color": "#0b3b60",
+  "lang": "da-DK",
+  "icons": [
+    {"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
+  ]
+}
