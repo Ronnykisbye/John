@@ -1,4 +1,4 @@
-const operators = ["Anna Jensen", "Brian Nielsen", "Camilla Sørensen", "Daniel Hansen", "Eva Madsen", "Frederik Larsen"];
+const operators = ["Anna Jensen", "Brian Nielsen", "Camilla Sørensen", "Daniel Hansen", "Eva Madsen", "Frederik Larsen", "John Frimann"];
 const STORAGE_KEY = "machineHandoverHistoryV1";
 const THEME_KEY = "machineHandoverThemeV1";
 
@@ -13,6 +13,7 @@ const saveStatus = document.getElementById("saveStatus");
 const installBtn = document.getElementById("installBtn");
 const themeBtn = document.getElementById("themeBtn");
 const liveClock = document.getElementById("liveClock");
+const handoverDate = document.getElementById("handoverDate");
 let deferredPrompt = null;
 
 function fillOperators() {
@@ -20,6 +21,19 @@ function fillOperators() {
     const select = document.getElementById(id);
     select.innerHTML = '<option value="">Vælg operatør</option>' + operators.map(name => `<option>${name}</option>`).join("");
   });
+}
+
+function setDefaultDate() {
+  if (!handoverDate) return;
+  const now = new Date();
+  const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  handoverDate.value = localDate;
+}
+
+function formatHandoverDate(value) {
+  if (!value) return "Dato ikke angivet";
+  const [year, month, day] = value.split("-");
+  return `${day}.${month}.${year}`;
 }
 
 function applyTheme(theme) {
@@ -65,7 +79,7 @@ function getHistory() {
 function saveHistory(items) { localStorage.setItem(STORAGE_KEY, JSON.stringify(items.slice(0, 25))); }
 
 function escapeHtml(value = "") {
-  return value.replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
+  return String(value).replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
 }
 
 function renderHistory() {
@@ -80,7 +94,8 @@ function renderHistory() {
       <div class="handover-badge ${item.machineStatus}">${item.machineStatus}</div>
       <div>
         <h3>${escapeHtml(item.machineNumber)} • ${escapeHtml(item.orderNumber)}</h3>
-        <p><strong>${escapeHtml(item.batch)}</strong> · ${escapeHtml(item.orderStart)} → ${escapeHtml(item.orderEnd)}</p>
+        <p><strong>${escapeHtml(item.batch)}</strong> · ${escapeHtml(formatHandoverDate(item.handoverDate))}</p>
+        <p>Ordre: ${escapeHtml(item.orderStart)} → ${escapeHtml(item.orderEnd)}</p>
         <p>${escapeHtml(item.outgoingOperator)} → ${escapeHtml(item.incomingOperator)}</p>
         ${item.errorDescription ? `<p class="error-note">${escapeHtml(item.errorDescription)}</p>` : ""}
       </div>
@@ -119,12 +134,14 @@ form.addEventListener("submit", event => {
   saveStatus.textContent = "● Gemt";
   setTimeout(() => saveStatus.textContent = "● Klar", 2500);
   form.reset();
+  setDefaultDate();
   toggleErrorField();
   window.scrollTo({top: 0, behavior: "smooth"});
 });
 
 document.getElementById("resetBtn").addEventListener("click", () => {
   form.reset();
+  setDefaultDate();
   toggleErrorField();
   hideMessage();
 });
@@ -158,6 +175,7 @@ if ("serviceWorker" in navigator) {
 
 initTheme();
 fillOperators();
+setDefaultDate();
 toggleErrorField();
 renderHistory();
 updateClock();
