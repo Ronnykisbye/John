@@ -23,8 +23,8 @@
       </div>
     </div>
     <div class="top-actions">
-      <button id="themeBtn" class="icon-btn" type="button" aria-label="Skift mellem lys og mørk tilstand" title="Lys/mørk">🌙</button>
-      <button id="installBtn" class="secondary" hidden>Installer app</button>
+      <button id="themeBtn" class="icon-btn depth-btn" type="button" aria-label="Skift mellem lys og mørk tilstand" title="Lys/mørk">🌙</button>
+      <button id="installBtn" class="secondary depth-btn" hidden>Installer app</button>
     </div>
   </header>
 
@@ -33,7 +33,7 @@
       <div class="system-item"><span class="pulse"></span><div><small>System</small><strong>Driftsklar</strong></div></div>
       <div class="system-item"><span class="system-icon">◷</span><div><small>Tid</small><strong id="liveClock">--:--</strong></div></div>
       <div class="system-item"><span class="system-icon">▣</span><div><small>Gemning</small><strong>Lokal demo</strong></div></div>
-      <div class="system-item"><span class="system-icon">✓</span><div><small>Arbejdsgang</small><strong>8 kontrolpunkter</strong></div></div>
+      <div class="system-item"><span class="system-icon">✓</span><div><small>Arbejdsgang</small><strong>9 kontrolpunkter</strong></div></div>
     </section>
 
     <section class="card form-card">
@@ -49,12 +49,17 @@
       <form id="handoverForm" novalidate>
         <div class="form-grid">
           <label class="field">
-            <span><i>01</i> Maskinnummer <b>*</b></span>
+            <span><i>01</i> Dato <b>*</b></span>
+            <input id="handoverDate" name="handoverDate" type="date" required>
+          </label>
+
+          <label class="field">
+            <span><i>02</i> Maskinnummer <b>*</b></span>
             <input id="machineNumber" name="machineNumber" type="text" inputmode="text" placeholder="Fx M-1042" required autocomplete="off">
           </label>
 
           <label class="field">
-            <span><i>02</i> Hvordan har maskinen kørt? <b>*</b></span>
+            <span><i>03</i> Hvordan har maskinen kørt? <b>*</b></span>
             <select id="machineStatus" name="machineStatus" required>
               <option value="">Vælg status</option>
               <option value="A">A. Kørt perfekt</option>
@@ -70,7 +75,7 @@
           </label>
 
           <label class="field">
-            <span><i>03</i> Er i gang med batch <b>*</b></span>
+            <span><i>04</i> Er i gang med batch <b>*</b></span>
             <select id="batch" name="batch" required>
               <option value="">Vælg batch</option>
               <option>Batch 0001</option><option>Batch 0002</option><option>Batch 0003</option><option>Batch 0004</option><option>Batch 0005</option>
@@ -78,27 +83,27 @@
           </label>
 
           <label class="field">
-            <span><i>04</i> Nuværende ordre <b>*</b></span>
+            <span><i>05</i> Nuværende ordre <b>*</b></span>
             <input id="orderNumber" name="orderNumber" type="text" placeholder="Fx ORD-123456-A" required autocomplete="off">
           </label>
 
           <label class="field">
-            <span><i>05</i> Ordre startet kl. <b>*</b></span>
+            <span><i>06</i> Ordre startet kl. <b>*</b></span>
             <input id="orderStart" name="orderStart" type="time" required>
           </label>
 
           <label class="field">
-            <span><i>06</i> Ordre forventes færdig kl. <b>*</b></span>
+            <span><i>07</i> Ordre forventes færdig kl. <b>*</b></span>
             <input id="orderEnd" name="orderEnd" type="time" required>
           </label>
 
           <label class="field">
-            <span><i>07</i> Afgående operatør <b>*</b></span>
+            <span><i>08</i> Afgående operatør <b>*</b></span>
             <select id="outgoingOperator" name="outgoingOperator" required></select>
           </label>
 
           <label class="field">
-            <span><i>08</i> Tilkommende operatør <b>*</b></span>
+            <span><i>09</i> Tilkommende operatør <b>*</b></span>
             <select id="incomingOperator" name="incomingOperator" required></select>
           </label>
         </div>
@@ -109,8 +114,8 @@
         </div>
         <div id="formMessage" class="message" role="alert" hidden></div>
         <div class="actions">
-          <button type="button" id="resetBtn" class="secondary">Nulstil</button>
-          <button type="submit" class="primary"><span>✓</span> Gem overdragelse</button>
+          <button type="button" id="resetBtn" class="secondary depth-btn">Nulstil</button>
+          <button type="submit" class="primary depth-btn"><span>✓</span> Gem overdragelse</button>
         </div>
       </form>
     </section>
