@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Maskinoverdragelse ikon">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b3b60"/>
+      <stop offset="1" stop-color="#1680ad"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <rect x="108" y="118" width="296" height="214" rx="34" fill="#fff" opacity=".96"/>
+  <rect x="148" y="158" width="216" height="24" rx="12" fill="#bcd3df"/>
+  <rect x="148" y="207" width="136" height="24" rx="12" fill="#bcd3df"/>
+  <circle cx="330" cy="219" r="25" fill="#29a36a"/>
+  <path d="M154 369h118" stroke="#fff" stroke-width="30" stroke-linecap="round"/>
+  <path d="m238 330 58 39-58 39" fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="358" cy="369" r="46" fill="#f1b744"/>
+  <path d="M338 369l14 14 27-31" fill="none" stroke="#0b3b60" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
